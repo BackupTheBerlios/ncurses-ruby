@@ -19,14 +19,14 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-// $Id: event.cc,v 1.2 2002/02/26 10:56:40 t-peters Exp $
+// $Id: event.cc,v 1.3 2002/03/04 07:09:27 t-peters Exp $
 
 #include "event.hh"
 
 VALUE Tvision_Ruby::WrEvent::cTEvent;
-VALUE Tvision_Ruby::WrEvent::cTEvMouse;
-VALUE Tvision_Ruby::WrEvent::cTEvKeyDown;
-VALUE Tvision_Ruby::WrEvent::cTEvMessage;
+VALUE Tvision_Ruby::WrEvent::cTEventMouse;
+VALUE Tvision_Ruby::WrEvent::cTEventKeyDown;
+VALUE Tvision_Ruby::WrEvent::cTEventMessage;
 
 void
 Tvision_Ruby::WrEvent::init_wrapper(void)
@@ -37,14 +37,14 @@ Tvision_Ruby::WrEvent::init_wrapper(void)
                               rb_cObject);
 
     // define class EvMouse, EvKeyDown, EvMessage as a childclasses of Event
-    Tvision_Ruby::WrEvent::cTEvMouse =
-        rb_define_class_under(Tvision_Ruby::mTvision, "EvMouse",
+    Tvision_Ruby::WrEvent::cTEventMouse =
+        rb_define_class_under(Tvision_Ruby::mTvision, "EventMouse",
                               Tvision_Ruby::WrEvent::cTEvent);
-    Tvision_Ruby::WrEvent::cTEvKeyDown =
-        rb_define_class_under(Tvision_Ruby::mTvision, "EvKeyDown",
+    Tvision_Ruby::WrEvent::cTEventKeyDown =
+        rb_define_class_under(Tvision_Ruby::mTvision, "EventKeyDown",
                               Tvision_Ruby::WrEvent::cTEvent);
-    Tvision_Ruby::WrEvent::cTEvMessage =
-        rb_define_class_under(Tvision_Ruby::mTvision, "EvMessage",
+    Tvision_Ruby::WrEvent::cTEventMessage =
+        rb_define_class_under(Tvision_Ruby::mTvision, "EventMessage",
                               Tvision_Ruby::WrEvent::cTEvent);
 }
 
@@ -62,11 +62,11 @@ Tvision_Ruby::WrEvent::wrap(TEvent & c_event, VALUE depends_on)
 {
     VALUE rb_class = Tvision_Ruby::WrEvent::cTEvent;
     if (c_event.what & evMouse)
-        rb_class = Tvision_Ruby::WrEvent::cTEvMouse;
+        rb_class = Tvision_Ruby::WrEvent::cTEventMouse;
     else if (c_event.what & evKeyboard)
-        rb_class = Tvision_Ruby::WrEvent::cTEvKeyDown;
+        rb_class = Tvision_Ruby::WrEvent::cTEventKeyDown;
     else if (c_event.what & evMessage)
-        rb_class = Tvision_Ruby::WrEvent::cTEvMessage;
+        rb_class = Tvision_Ruby::WrEvent::cTEventMessage;
     VALUE rb_event = Data_Wrap_Struct(rb_class, 0, 0, &c_event);
 
     // containing object may not go out of scope before this object
@@ -84,11 +84,11 @@ Tvision_Ruby::WrEvent::wrap(const TEvent & c_event)
 {
     VALUE rb_class = Tvision_Ruby::WrEvent::cTEvent;
     if (c_event.what & evMouse)
-        rb_class = Tvision_Ruby::WrEvent::cTEvMouse;
+        rb_class = Tvision_Ruby::WrEvent::cTEventMouse;
     else if (c_event.what & evKeyboard)
-        rb_class = Tvision_Ruby::WrEvent::cTEvKeyDown;
+        rb_class = Tvision_Ruby::WrEvent::cTEventKeyDown;
     else if (c_event.what & evMessage)
-        rb_class = Tvision_Ruby::WrEvent::cTEvMessage;
+        rb_class = Tvision_Ruby::WrEvent::cTEventMessage;
     TEvent * cp_event = new TEvent;
     *cp_event = c_event;
     VALUE rb_event = Data_Wrap_Struct(rb_class, 0, &delete_TEvent,
