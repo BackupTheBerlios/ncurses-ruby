@@ -19,7 +19,7 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-// $Id: view.cc,v 1.3 2002/02/26 10:56:40 t-peters Exp $
+// $Id: view.cc,v 1.4 2002/02/26 23:22:26 t-peters Exp $
 
 #include "view.hh"
 #include "object.hh"
@@ -51,8 +51,8 @@ Tvision_Ruby::WrView::wrap(TView & c_view)
 TView &
 Tvision_Ruby::WrView::unwrap(VALUE rb_view)
 {
-    WrView * c_view =
-        dynamic_cast<WrView *>(&Tvision_Ruby::WrObject::unwrap(rb_view));
+    TView * c_view =
+        dynamic_cast<TView *>(&Tvision_Ruby::WrObject::unwrap(rb_view));
     if (c_view) {
         return *c_view;
     }
