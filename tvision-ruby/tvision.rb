@@ -210,25 +210,8 @@ module Tvision
 
 
   class Point
-    attr_accessor :x,:y
-    def initialize(*args)
-      case args.size()
-      when 0
-	@x, @y = 0,0
-      when 2
-	@x, @y = *args
-      else
-	raise "needs 0 or 2 arguments"
-      end
-    end
-    def +(other)
-      Point.new(@x + other.x, @y + other.y)
-    end
-    def -(other)
-      Point.new(@x - other.x, @y - other.y)
-    end
-    def ==(other)
-      (@x == other.x) && (@y == other.y)
+    def inspect
+      super.sub(">"," <C++::TPoint x=#{x} y=#{y}> >")
     end
   end
 
