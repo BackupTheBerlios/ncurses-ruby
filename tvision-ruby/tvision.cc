@@ -25,14 +25,17 @@
 #include "application.hh"
 #include "point.hh"
 #include "rect.hh"
+#include "object.hh"
+#include "view.hh"
+#include "group.hh"
+
 
 VALUE Tvision_Ruby::mTvision = 0;
 
 extern "C" void
 Init_tvision(void)
 {
-    Tvision_Ruby::mTvision = rb_define_module("Tvision");
-    rb_iv_set(Tvision_Ruby::mTvision, "@application", Qnil);
+    Tvision_Ruby::mTvision = rb_define_module("TVision");
     Tvision_Ruby::WrApplication::init_wrapper();
     Tvision_Ruby::WrPoint::init_wrapper();
     Tvision_Ruby::WrRect::init_wrapper();
