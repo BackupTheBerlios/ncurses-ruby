@@ -19,7 +19,7 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-// $Id: group.cc,v 1.3 2002/02/26 10:56:40 t-peters Exp $
+// $Id: group.cc,v 1.4 2002/02/26 23:22:12 t-peters Exp $
 
 #include "group.hh"
 #include "view.hh"
@@ -51,8 +51,8 @@ Tvision_Ruby::WrGroup::wrap(TGroup & c_group)
 TGroup &
 Tvision_Ruby::WrGroup::unwrap(VALUE rb_group)
 {
-    WrGroup * c_group =
-        dynamic_cast<WrGroup *>(&Tvision_Ruby::WrView::unwrap(rb_group));
+    TGroup * c_group =
+        dynamic_cast<TGroup *>(&Tvision_Ruby::WrView::unwrap(rb_group));
     if (c_group) {
         return *c_group;
     }
