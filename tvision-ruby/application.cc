@@ -24,6 +24,7 @@
 #include "application.hh"
 #include "group.hh"
 #include "object.hh"
+#include "event.hh"
 
 VALUE Tvision_Ruby::WrApplication::cTApplication = 0;
 VALUE Tvision_Ruby::WrApplication::sleep_time    = 0;
@@ -169,7 +170,7 @@ Tvision_Ruby::WrApplication::init_wrapper(void)
     // define class Application in module Tvision
     Tvision_Ruby::WrApplication::cTApplication =
         rb_define_class_under(Tvision_Ruby::mTvision, "Application",
-                              Tvision_Ruby::WrApplication::cTApplication);
+                              Tvision_Ruby::WrGroup::cTGroup);
 
     // set a class variable in this class to the id of the currently living
     // Application object
@@ -234,6 +235,9 @@ Tvision_Ruby::WrApplication::init_wrapper(void)
                      "resume",
                      reinterpret_cast<VALUE(*)(...)>
                      (&Tvision_Ruby::WrApplication::rb_resume), 0);
+
+    // Application::application will give return the living Application object
+    // if one exists currently. Otherwise, nil will be returned.
     rb_define_module_function(Tvision_Ruby::WrApplication::cTApplication,
                               "application",
                               reinterpret_cast<VALUE(*)(...)>
@@ -242,6 +246,31 @@ Tvision_Ruby::WrApplication::init_wrapper(void)
 
     // we implement our own CPU release in WrApplication::idle
     TProgram::doNotReleaseCPU = 1;
+
+    // Application#idle will be called from the framework as a part of the main
+    // loop. This method is supposed to sleep for a short time.
+    rb_define_method(Tvision_Ruby::WrApplication::cTApplication,
+                     "idle",
+                     reinterpret_cast<VALUE(*)(...)>
+                     (&Tvision_Ruby::WrApplication::rb_idle), 0);
+
+    // Application#initScreen
+    rb_define_method(Tvision_Ruby::WrApplication::cTApplication,
+                     "initScreen",
+                     reinterpret_cast<VALUE(*)(...)>
+                     (&Tvision_Ruby::WrApplication::rb_initScreen), 0);
+
+    // Application#outOfMemory
+    rb_define_method(Tvision_Ruby::WrApplication::cTApplication,
+                     "outOfMemory",
+                     reinterpret_cast<VALUE(*)(...)>
+                     (&Tvision_Ruby::WrApplication::rb_outOfMemory), 0);
+
+    // Application#getEvent
+    rb_define_method(Tvision_Ruby::WrApplication::cTApplication,
+                     "getEvent",
+                     reinterpret_cast<VALUE(*)(...)>
+                     (&Tvision_Ruby::WrApplication::rb_getEvent), 1);
 };
 
 static VALUE call_id2ref(VALUE id) {
@@ -349,5 +378,23 @@ VALUE
 Tvision_Ruby::WrApplication::rb_outOfMemory(VALUE rb_application)
 {
     Tvision_Ruby::WrApplication::unwrap(rb_application).outOfMemory();
+    return Qnil;
+}
+
+void
+Tvision_Ruby::WrApplication::getEvent(TEvent& c_event)
+{
+    VALUE rb_event = Tvision_Ruby::WrEvent::wrap(c_event);
+    VALUE rb_app   = Tvision_Ruby::WrApplication::wrap(*this);
+    rb_funcall(rb_app, rb_intern("getEvent"), 1, rb_event);
+    c_event = Tvision_Ruby::WrEvent::unwrap(rb_event);
+}
+
+VALUE
+Tvision_Ruby::WrApplication::rb_getEvent(VALUE rb_application, VALUE rb_event)
+{
+    Tvision_Ruby::WrApplication::
+        unwrap(rb_application).TApplication::
+        getEvent(Tvision_Ruby::WrEvent::unwrap(rb_event));
     return Qnil;
 }
