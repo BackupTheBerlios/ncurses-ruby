@@ -93,19 +93,21 @@ namespace Tvision_Ruby {
 
         virtual void getEvent(TEvent& event);
         static VALUE rb_getEvent(VALUE rb_application, VALUE rb_event);
-        
+
+        // delegate call from framework to virtual method to ruby method
+        virtual void run();
+
+        // default ruby run method calls TApplication::run
+        static VALUE rb_run(VALUE rb_application);
+
         // things to wrap from TProgram:
-        /* 
+        /*
     virtual TPalette& getPalette() const;
     virtual void handleEvent(TEvent& event);
     virtual void putEvent( TEvent& event );
-    virtual void run();
     void setScreenMode( ushort mode, char *comm=0 );
     TView *validView( TView *p );
     virtual void shutDown();
-
-    virtual void suspend() {}
-    virtual void resume() {}
 
     // This is a very nasty function only needed if you call
     // TScreen::resume bypassing TProgram::resume. In this case
@@ -114,11 +116,6 @@ namespace Tvision_Ruby {
     void syncScreenBuffer();
     //   { buffer = TScreen::screenBuffer; }
 
-    static TStatusLine *initStatusLine( TRect );
-    static TMenuBar *initMenuBar( TRect );
-    static TDeskTop *initDeskTop( TRect );
-
-    static TProgram * application;
     static TStatusLine * statusLine;
     static TMenuBar * menuBar;
     static TDeskTop * deskTop;
@@ -135,10 +132,6 @@ namespace Tvision_Ruby {
     // I think that sometimes we can have a long elapsed time without events
     // so I provide a way to reset it
     static void resetIdleTime() { inIdle=False; };
-    // SET: By default that's 0 and the idle member releases the CPU to the
-    // OS. If for some reason you really need to avoid it and want to use
-    // 100% of the CPU just assign 1 to this variable.
-    static char doNotReleaseCPU;
 
 protected:
 
