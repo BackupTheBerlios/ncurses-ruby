@@ -19,7 +19,7 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-// $Id: rect.hh,v 1.2 2002/02/26 10:56:40 t-peters Exp $
+// $Id: rect.hh,v 1.3 2002/03/04 07:10:38 t-peters Exp $
 
 #ifndef TVISION_RUBY_RECT_HH
 #define TVISION_RUBY_RECT_HH
@@ -72,9 +72,10 @@ namespace Tvision_Ruby {
         static
         VALUE wrap(TRect &, VALUE depends_on_object);
 
-    private:
         static
         TRect & unwrap(VALUE rb_rect);
+
+    private:
         static
         void rb_free(void *);
     };
