@@ -19,7 +19,7 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-// $Id: application.hh,v 1.5 2002/02/26 10:56:40 t-peters Exp $
+// $Id: application.hh,v 1.6 2002/03/04 07:09:54 t-peters Exp $
 
 #ifndef TVISION_RUBY_APPLICATION_HH
 #define TVISION_RUBY_APPLICATION_HH
@@ -100,6 +100,10 @@ namespace Tvision_Ruby {
         // default ruby run method calls TApplication::run
         static VALUE rb_run(VALUE rb_application);
 
+        // methods for getting and setting the class variable statusLine
+        static VALUE rb_get_statusLine(VALUE);
+        static VALUE rb_set_statusLine(VALUE, VALUE rb_statusLine);
+
         // things to wrap from TProgram:
         /*
     virtual TPalette& getPalette() const;
@@ -116,7 +120,6 @@ namespace Tvision_Ruby {
     void syncScreenBuffer();
     //   { buffer = TScreen::screenBuffer; }
 
-    static TStatusLine * statusLine;
     static TMenuBar * menuBar;
     static TDeskTop * deskTop;
     static int appPalette;
