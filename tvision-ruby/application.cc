@@ -249,28 +249,31 @@ Tvision_Ruby::WrApplication::init_wrapper(void)
 
     // Application#idle will be called from the framework as a part of the main
     // loop. This method is supposed to sleep for a short time.
-    rb_define_method(Tvision_Ruby::WrApplication::cTApplication,
-                     "idle",
+    rb_define_method(Tvision_Ruby::WrApplication::cTApplication, "idle",
                      reinterpret_cast<VALUE(*)(...)>
                      (&Tvision_Ruby::WrApplication::rb_idle), 0);
 
     // Application#initScreen
-    rb_define_method(Tvision_Ruby::WrApplication::cTApplication,
-                     "initScreen",
+    rb_define_method(Tvision_Ruby::WrApplication::cTApplication, "initScreen",
                      reinterpret_cast<VALUE(*)(...)>
                      (&Tvision_Ruby::WrApplication::rb_initScreen), 0);
 
     // Application#outOfMemory
-    rb_define_method(Tvision_Ruby::WrApplication::cTApplication,
-                     "outOfMemory",
+    rb_define_method(Tvision_Ruby::WrApplication::cTApplication, "outOfMemory",
                      reinterpret_cast<VALUE(*)(...)>
                      (&Tvision_Ruby::WrApplication::rb_outOfMemory), 0);
 
     // Application#getEvent
-    rb_define_method(Tvision_Ruby::WrApplication::cTApplication,
-                     "getEvent",
+    rb_define_method(Tvision_Ruby::WrApplication::cTApplication, "getEvent",
                      reinterpret_cast<VALUE(*)(...)>
                      (&Tvision_Ruby::WrApplication::rb_getEvent), 1);
+
+    
+    // Application#run
+    rb_define_method(Tvision_Ruby::WrApplication::cTApplication, "run",
+                     reinterpret_cast<VALUE(*)(...)>
+                     (&Tvision_Ruby::WrApplication::rb_getEvent), 1);
+
 };
 
 static VALUE call_id2ref(VALUE id) {
@@ -397,4 +400,17 @@ Tvision_Ruby::WrApplication::rb_getEvent(VALUE rb_application, VALUE rb_event)
         unwrap(rb_application).TApplication::
         getEvent(Tvision_Ruby::WrEvent::unwrap(rb_event));
     return Qnil;
+}
+
+void
+Tvision_Ruby::WrApplication::run()
+{
+    VALUE rb_app   = Tvision_Ruby::WrApplication::wrap(*this);
+    rb_funcall(rb_app, rb_intern("run"), 0);
+}
+VALUE
+Tvision_Ruby::WrApplication::rb_run(VALUE rb_application)
+{
+    TApplication & c_app = Tvision_Ruby::WrApplication::unwrap(rb_application);
+    c_app.TApplication::run();
 }
