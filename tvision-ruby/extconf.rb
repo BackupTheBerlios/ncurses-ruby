@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-# $Id: extconf.rb,v 1.4 2002/03/04 15:23:18 t-peters Exp $
+# $Id: extconf.rb,v 1.5 2002/03/04 15:37:29 t-peters Exp $
 
 # tvision-ruby is a ruby wrapper for the text-mode application framework
 # developed by Borland.
@@ -57,7 +57,8 @@ makefile = IO.readlines("Makefile")
 
 line_no = makefile.index(makefile.grep(/^install:/)[0])
 
-makefile[line_no] += " $(rubylibdir)$(target_prefix)/tvision.rb\n" +
+makefile[line_no] = makefile[line_no].chomp +
+	" $(rubylibdir)$(target_prefix)/tvision.rb\n" +
   "$(rubylibdir)$(target_prefix)/tvision.rb: tvision.rb        \n" +
   "\t@$(RUBY) -r ftools -e 'File::install(ARGV[0], ARGV[1], 0644, true)' " +
   "                   tvision.rb $(rubylibdir)$(target_prefix)/tvision.rb"
