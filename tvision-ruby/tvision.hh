@@ -27,6 +27,8 @@
 
 #define Uses_TApplication
 #define Uses_TStatusLine
+#define Uses_TStatusItem
+#define Uses_TStatusDef
 #define Uses_TMenuBar
 #define Uses_TDeskTop
 
@@ -85,8 +87,24 @@ namespace Tvision_Ruby {
         init_wrapper(void);
     };
 
-    class WrStatusItem : public TStatusitem {
-        WrStatusItem(VALUE);
+    class WrStatusItem : public TStatusItem {
+    public:
+        // create just one statusitem
+        WrStatusItem(VALUE rb_statusitem, TStatusItem * next_item = 0);
+
+        // create a chain of status items from a ruby array
+        static TStatusItem *
+        create_statusitem_chain(VALUE rb_statusitem_array);
+    };
+
+    class WrStatusDef : public TStatusDef {
+    public:
+        // create just one statusdef
+        WrStatusDef(VALUE rb_statusdef, TStatusDef * next_def = 0);
+
+        // create a chain of status defs from a ruby array
+        static TStatusDef *
+        create_statusdef_chain(VALUE rb_statusdef_array);
     };
 }
 

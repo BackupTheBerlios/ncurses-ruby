@@ -286,42 +286,25 @@ module Tvision
   end
 
   class StatusItem
-    attr_accessor :next, :text, :keyCode, :command
-    def initialize(text, key, cmd, next = nil)
-      @next, @keyCode, @command = next, key, cmd
+    attr_reader :text, :keyCode, :command
+    def initialize(text, key, cmd)
+      @keyCode, @command = key, cmd
       @text = text.dup
-    end
-    def add!(item)
-      if (next)
-	next.add!(item)
-      else
-	next = item
-      end
-      self
     end
   end
 
-  class StatusDef
-    attr_accessor :min, :max, :items, :next
-    def initialize(min, max, items = nil, next = nil)
-      @min, @max, @items, @next = min, max, items, next
-    end
-    def add!(other)
-      if (@next)
-	@next.add!(other)
-      else
-	case other
-	when StatusItem
-	  if (@items)
-	    @items.add!(other)
-	  else
-	    @items = other
-	  end
-	when StatusDef
-	  @next = other
-	end
+  class StatusDef < Array
+    attr_reader :min, :max
+    def initialize(min, max, *items)
+      super()
+      if (min > max) 
+	raise ArgumentError, "min may not be greater than max"
       end
-      self
+      @min, @max = min, max
+      if ((items.size == 1) && items[0].kind_of?(Array))
+	items = items[0]
+      end
+      concat(items)
     end
   end
 

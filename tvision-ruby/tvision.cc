@@ -176,15 +176,49 @@ Tvision_Ruby::WrApplication::rb_free(void * c_app)
     TObject::destroy(reinterpret_cast<Tvision_Ruby::WrApplication*>(c_app));
 }
 
-Tvision_Ruby::WrStatusItem::WrStatusItem(VALUE rb_statusitem)
-    : TStatusItem(STR2CSTR(rb_iv_get(rb_statusitem, "@text")),
-                  NUM2INT(rb_iv_get(rb_statusitem, "@key")),
-                  NUM2INT(rb_iv_get(rb_statusitem, "@cmd")),
-                  0)
+Tvision_Ruby::WrStatusItem::WrStatusItem(VALUE rb_statusitem,
+                                         TStatusItem * next_item)
+    : TStatusItem(STR2CSTR(rb_funcall(rb_statusitem, rb_intern("text"), 0)),
+                  NUM2INT(rb_funcall(rb_statusitem, rb_intern("keyCode"), 0)),
+                  NUM2INT(rb_funcall(rb_statusitem, rb_intern("command"), 0)),
+                  next_item)
+{}
+TStatusItem *
+Tvision_Ruby::WrStatusItem::create_statusitem_chain(VALUE rb_statusitem_array)
 {
-    VALUE rb_next = rb_iv_get(rb_statusitem, "@next");
-    if (rb_next != Qnil)
-        next = new Tvision_Ruby::WrStatusItem(rb_next);
+    TStatusItem * item = 0;
+    int n = NUM2INT(rb_funcall(rb_statusitem_array, rb_intern("size"), 0));
+    while (--n >= 0) {
+        item = new Tvision_Ruby::WrStatusItem(rb_funcall(rb_statusitem_array,
+                                                         rb_intern("[]"),
+                                                         1,
+                                                         INT2NUM(n)),
+                                              item);
+    }
+    return item;
+}
+
+Tvision_Ruby::WrStatusDef::WrStatusDef(VALUE rb_statusdef,
+                                       TStatusDef * next_def)
+    : TStatusDef(NUM2INT(rb_funcall(rb_statusdef, rb_intern("min"), 0)),
+                 NUM2INT(rb_funcall(rb_statusdef, rb_intern("max"), 0)),
+                 Tvision_Ruby::WrStatusItem::
+                                  create_statusitem_chain(rb_statusdef),
+                 next_def)
+{}
+TStatusDef *
+Tvision_Ruby::WrStatusDef::create_statusdef_chain(VALUE rb_statusdef_array)
+{
+    TStatusDef * def = 0;
+    int n = NUM2INT(rb_funcall(rb_statusdef_array, rb_intern("size"), 0));
+    while (--n >= 0) {
+        def = new Tvision_Ruby::WrStatusDef(rb_funcall(rb_statusdef_array,
+                                                       rb_intern("[]"),
+                                                       1,
+                                                       INT2NUM(n)),
+                                            def);
+    }
+    return def;
 }
 
 extern "C" void
