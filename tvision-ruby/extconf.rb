@@ -1,9 +1,29 @@
 #!/usr/bin/env ruby
-# $Id: extconf.rb,v 1.2 2002/02/27 12:38:59 t-peters Exp $
+# $Id: extconf.rb,v 1.3 2002/02/28 15:52:13 t-peters Exp $
+
+# tvision-ruby is a ruby wrapper for the text-mode application framework
+# developed by Borland.
+# Copyright (C) 2002 Tobias Peters <t-peters@users.berlios.de>
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 
 require "mkmf"
 
+# Check if the user specified the location of the rhtvision library
 if (ARGV.grep(/^--rhtvision-prefix=/).size > 0)
+  # He did.
   rhtvision_prefix = ARGV.grep(/^--rhtvision-prefix=/)[0]
   rhtvision_prefix = rhtvision_prefix[("--rhtvision-prefix=".length .. -1)]
 else
@@ -13,6 +33,11 @@ else
     rhtvision_prefix = "/usr/local"
   elsif (File.exist?(ENV["HOME"] + "/include/rhtvision/tv.h"))
     rhtvision_prefix = ENV["HOME"]
+  else
+    raise "could not find the rhtvision library. Please restart " +
+      "extconf.rb with a command line argument --rhtvision-prefix=XXX, " +
+      "where XXX is the prefix that you used for configuring the rhtvision " +
+      "library"
   end
 end
 
