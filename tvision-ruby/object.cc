@@ -19,7 +19,7 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-// $Id: object.cc,v 1.4 2002/02/26 10:56:40 t-peters Exp $
+// $Id: object.cc,v 1.5 2002/03/04 07:10:20 t-peters Exp $
 
 #include "object.hh"
 #include "view.hh"
@@ -169,3 +169,41 @@ Tvision_Ruby::WrObject::unset_dependency(VALUE object1, VALUE object2)
     rb_funcall(iv2, rb_intern("delete"), 1, object1);
     rb_iv_set(object2, "@tvision_dependency", iv2);
 }
+bool
+Tvision_Ruby::WrObject::registered_wrapper(TObject & c_object)
+{
+    void * c_pointer = &c_object;
+
+    if (c_pointer == 0) {
+        return false;
+    }
+    // try to find a wrapper for this TObject in the wrapper database
+    std::map<void*,VALUE>::iterator object_iterator =
+        Tvision_Ruby::WrObject::ObjectHash->find(c_pointer);
+    return object_iterator != Tvision_Ruby::WrObject::ObjectHash->end();
+    // There is an entry in the wrapper database.
+}
+bool
+Tvision_Ruby::WrObject::exist_wrapper(TObject & c_object)
+{
+    if (Tvision_Ruby::WrObject::registered_wrapper(c_object)) {
+        VALUE rb_object = (*Tvision_Ruby::WrObject::ObjectHash)[&c_object];
+        // find out if this ruby object is living
+        int exception_raised = 0;
+        VALUE rb_object2 =
+            rb_protect(reinterpret_cast<VALUE(*)(...)>(&call_id2ref),
+                       INT2NUM(rb_object),
+                       &exception_raised);
+        if (exception_raised == 0) {
+            assert(rb_object == rb_object2);
+            return true;
+        }
+        // else
+        // the registered wrapper object must have been garbage collected.
+        Tvision_Ruby::WrObject::ObjectHash->erase(&c_object);
+    }
+    return false;
+}
+
+
+                          
