@@ -27,15 +27,18 @@
 #include "tvision.hh"
 
 namespace Tvision_Ruby {
-    class WrPoint : public Tpoint{
+    class WrPoint : public TPoint {
     public:
-        VALUE cTPoint;
+        static VALUE cTPoint;
         
         WrPoint(VALUE rb_point);
         WrPoint(void);
         
         static VALUE
-        wrap(const Tpoint &);
+        wrap(const TPoint &);
+
+        static VALUE
+        wrap(TPoint &, VALUE depends_on_object);
 
         static VALUE
         rb_plus(VALUE rb_point1, VALUE rb_point2);
@@ -60,9 +63,12 @@ namespace Tvision_Ruby {
         static void
         init_wrapper(void);
 
-        static void
+        static VALUE
         rb_new(int argc, VALUE *argv, VALUE self);
-    private:
+
+        static VALUE
+        rb_dup(VALUE rb_point);
+        
         static TPoint &
         unwrap(VALUE rb_point);
     };
