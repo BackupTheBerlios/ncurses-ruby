@@ -32,6 +32,8 @@
 #define Uses_TStatusDef
 #define Uses_TMenuBar
 #define Uses_TDeskTop
+#define Uses_TPoint
+#define Uses_TRect
 
 #include <rhtvision/tv.h>
 
