@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-# $Id: tvguid01.rb,v 1.1 2002/02/28 15:56:20 t-peters Exp $
+# $Id: tvguid01.rb,v 1.2 2002/03/04 07:11:39 t-peters Exp $
 
 # tvision-ruby is a ruby wrapper for the text-mode application framework
 # developed by Borland.
@@ -43,7 +43,7 @@ require "tvision.rb"
 # module TVision contains all needed TVision classes
 
 class MyApp < TVision::Application
-  # For this first example, there is no need to extent the Application class
+  # For this first example, there is no need to extend the Application class
 end
 
 myApp = MyApp.new
