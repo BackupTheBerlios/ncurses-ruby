@@ -34,6 +34,7 @@
 #define Uses_TDeskTop
 #define Uses_TPoint
 #define Uses_TRect
+#define Uses_TView
 
 #include <rhtvision/tv.h>
 
