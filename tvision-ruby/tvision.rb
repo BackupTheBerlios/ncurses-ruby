@@ -1,3 +1,5 @@
+# $Id: tvision.rb,v 1.5 2002/02/27 10:30:34 t-peters Exp $
+
 require "tvision.so"
 
 module TVision
