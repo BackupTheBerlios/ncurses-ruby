@@ -35,6 +35,7 @@
 #define Uses_TPoint
 #define Uses_TRect
 #define Uses_TView
+#define Uses_TEvent
 
 #include <rhtvision/tv.h>
 
