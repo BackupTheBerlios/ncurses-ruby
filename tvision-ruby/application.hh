@@ -19,7 +19,7 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-// $ID$
+// $Id: application.hh,v 1.5 2002/02/26 10:56:40 t-peters Exp $
 
 #ifndef TVISION_RUBY_APPLICATION_HH
 #define TVISION_RUBY_APPLICATION_HH

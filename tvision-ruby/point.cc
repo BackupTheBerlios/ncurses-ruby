@@ -19,7 +19,7 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-// $ID$
+// $Id: point.cc,v 1.3 2002/02/26 10:56:40 t-peters Exp $
 
 #include "point.hh"
 
