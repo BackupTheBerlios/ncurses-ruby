@@ -19,11 +19,12 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+// $ID$
+
 #ifndef TVISION_RUBY_HH
 #define TVISION_RUBY_HH
 
 #include <ruby.h>
-#include <string>
 
 #define Uses_TApplication
 #define Uses_TStatusLine
@@ -37,75 +38,6 @@
 namespace Tvision_Ruby {
     // The ruby Tvision module
     extern VALUE mTvision;
-
-    // A class derived from TApplication to ease the wrapping
-    class WrApplication : public TApplication {
-    public:
-        // The ruby Application class
-        static VALUE cTApplication;
-
-        // The constructor takes the Ruby class derived from application as its
-        // argument
-        WrApplication(VALUE application_class);
-
-        // The default ruby initializer. The ruby initializer is called from
-        // the WrApplication constructor. This initializer calls the three init
-        // functions.  It may be overridden in this or a derived class.
-        static VALUE
-        rb_initialize(VALUE self);
-
-        // The new method of ruby's application class
-        static VALUE
-        rb_new(VALUE application_class);
-
-        // These are the default ruby initializers for the statusline, menubar,
-        // and desktop. They will call the corresponding TApplication init
-        // functions.
-        static VALUE
-        rb_initStatusLine(VALUE self);
-        static VALUE
-        rb_initMenuBar(VALUE self);
-        static VALUE
-        rb_initDeskTop(VALUE self);
-
-        // These are the methods that the ruby initializers will call for
-        // initialization of their parts:
-        virtual void
-        c_initStatusLine(void);
-        virtual void
-        c_initMenuBar(void);
-        virtual void
-        c_initDeskTop(void);
-
-        static void
-        rb_mark(void*);
-        static void
-        rb_free(void*);
-        
-        // This function registers the necessary Application methods with ruby.
-        static void
-        init_wrapper(void);
-    };
-
-    class WrStatusItem : public TStatusItem {
-    public:
-        // create just one statusitem
-        WrStatusItem(VALUE rb_statusitem, TStatusItem * next_item = 0);
-
-        // create a chain of status items from a ruby array
-        static TStatusItem *
-        create_statusitem_chain(VALUE rb_statusitem_array);
-    };
-
-    class WrStatusDef : public TStatusDef {
-    public:
-        // create just one statusdef
-        WrStatusDef(VALUE rb_statusdef, TStatusDef * next_def = 0);
-
-        // create a chain of status defs from a ruby array
-        static TStatusDef *
-        create_statusdef_chain(VALUE rb_statusdef_array);
-    };
 }
 
 extern "C" void
