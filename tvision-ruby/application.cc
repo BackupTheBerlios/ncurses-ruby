@@ -138,34 +138,6 @@ Tvision_Ruby::WrApplication::c_initDeskTop(void)
 }
 
 void
-Tvision_Ruby::WrApplication::init_wrapper(void)
-{
-    Tvision_Ruby::WrApplication::cTApplication =
-        rb_define_class_under(Tvision_Ruby::mTvision, "Application",
-                              rb_cObject);
-    rb_define_module_function(Tvision_Ruby::WrApplication::cTApplication,
-                              "new",
-                              reinterpret_cast<VALUE(*)(...)>
-                              (&Tvision_Ruby::WrApplication::rb_new), 0);
-    rb_define_method(Tvision_Ruby::WrApplication::cTApplication,
-                     "initialize",
-                     reinterpret_cast<VALUE(*)(...)>
-                     (&Tvision_Ruby::WrApplication::rb_initialize), 0);
-    rb_define_method(Tvision_Ruby::WrApplication::cTApplication,
-                     "initStatusLine",
-                     reinterpret_cast<VALUE(*)(...)>
-                     (&Tvision_Ruby::WrApplication::rb_initStatusLine), 0);
-    rb_define_method(Tvision_Ruby::WrApplication::cTApplication,
-                     "initMenuBar",
-                     reinterpret_cast<VALUE(*)(...)>
-                     (&Tvision_Ruby::WrApplication::rb_initMenuBar), 0);
-    rb_define_method(Tvision_Ruby::WrApplication::cTApplication,
-                     "initDeskTop",
-                     reinterpret_cast<VALUE(*)(...)>
-                     (&Tvision_Ruby::WrApplication::rb_initDeskTop), 0);
-};
-
-void
 Tvision_Ruby::WrApplication::rb_mark(void*)
 {
     // Not yet anything to mark
@@ -175,3 +147,52 @@ Tvision_Ruby::WrApplication::rb_free(void * c_app)
 {
     TObject::destroy(reinterpret_cast<Tvision_Ruby::WrApplication*>(c_app));
 }
+
+void
+Tvision_Ruby::WrApplication::init_wrapper(void)
+{
+    // define class Application in module Tvision
+    Tvision_Ruby::WrApplication::cTApplication =
+        rb_define_class_under(Tvision_Ruby::mTvision, "Application",
+                              rb_cObject);
+
+    // overwrite Application::new(). It will allocate a C++ TApplication
+    rb_define_module_function(Tvision_Ruby::WrApplication::cTApplication,
+                              "new",
+                              reinterpret_cast<VALUE(*)(...)>
+                              (&Tvision_Ruby::WrApplication::rb_new), 0);
+
+    // define Application#initialize(), it may be overwritten by derived
+    // classes
+    rb_define_method(Tvision_Ruby::WrApplication::cTApplication,
+                     "initialize",
+                     reinterpret_cast<VALUE(*)(...)>
+                     (&Tvision_Ruby::WrApplication::rb_initialize), 0);
+
+    // Application#initStatusLine() is called from Application#initialize().
+    // It will construct a statusline in the bottommost line of the screen
+    rb_define_method(Tvision_Ruby::WrApplication::cTApplication,
+                     "initStatusLine",
+                     reinterpret_cast<VALUE(*)(...)>
+                     (&Tvision_Ruby::WrApplication::rb_initStatusLine), 0);
+
+    // Application#initMenuBar() is similarly called from
+    // Application#initialize(), and will allocate a menubar in the topmost
+    // line of the screen
+    rb_define_method(Tvision_Ruby::WrApplication::cTApplication,
+                     "initMenuBar",
+                     reinterpret_cast<VALUE(*)(...)>
+                     (&Tvision_Ruby::WrApplication::rb_initMenuBar), 0);
+
+    // Application#initDeskTop() places a desktop between the menubar and the
+    // statusline. It is also called from Application#initialize()
+    rb_define_method(Tvision_Ruby::WrApplication::cTApplication,
+                     "initDeskTop",
+                     reinterpret_cast<VALUE(*)(...)>
+                     (&Tvision_Ruby::WrApplication::rb_initDeskTop), 0);
+
+    // Application is a singleton, disallow clone and dup.
+    rb_funcall(Tvision_Ruby::WrApplication::cTApplication,
+               rb_intern("private"), 2,
+               rb_str_new2("clone"), rb_str_new2("dup"));
+};
