@@ -19,7 +19,7 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-// $Id: statusline.cc,v 1.1 2002/03/04 07:12:12 t-peters Exp $
+// $Id: statusline.cc,v 1.2 2002/03/06 21:38:19 t-peters Exp $
 
 #include "statusline.hh"
 #include "view.hh"
@@ -40,6 +40,9 @@ Tvision_Ruby::WrStatusLine::init_wrapper(void)
     rb_define_module_function(Tvision_Ruby::WrStatusLine::cTStatusLine, "new",
                               reinterpret_cast<VALUE(*)(...)>
                               (&Tvision_Ruby::WrStatusLine::rb_new), 2);
+    rb_define_method(Tvision_Ruby::WrStatusLine::cTStatusLine, "initialize",
+                     reinterpret_cast<VALUE(*)(...)>
+                     (&Tvision_Ruby::WrStatusLine::rb_initialize), 2);
 }
 
 VALUE
@@ -97,7 +100,14 @@ Tvision_Ruby::WrStatusLine::rb_new(VALUE rb_class, VALUE rb_rect,
     }
     // init and return statusline
     TStatusLine * c_statusline = new TStatusLine(c_rect, *c_statusdef);
-    return Tvision_Ruby::WrObject::wrap(*c_statusline);
+    VALUE rb_statusline = Tvision_Ruby::WrObject::wrap(*c_statusline);
+    VALUE args[2] = {rb_rect, rb_statusdefs};
+    rb_obj_call_init(self, 2, args);
+    return rb_statusline;
 }
 
-
+VALUE
+Tvision_Ruby::WrStatusLine::rb_initialize(VALUE rb_statusline, VALUE rb_rect,
+                                          VALUE rb_statusdefs)
+{
+}
