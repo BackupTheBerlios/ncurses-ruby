@@ -46,6 +46,8 @@ Tvision_Ruby::WrObject::init_wrapper(void)
     rb_funcall(Tvision_Ruby::WrObject::cTObject, rb_intern("private"), 3,
                rb_str_new2("initialize"),  rb_str_new2("clone"),
                rb_str_new2("dup"));
+
+    Tvision_Ruby::WrView::init_wrapper();
 }
 
 VALUE
