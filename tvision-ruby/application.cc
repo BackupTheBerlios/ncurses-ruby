@@ -19,12 +19,13 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-// $Id: application.cc,v 1.7 2002/02/26 23:22:01 t-peters Exp $
+// $Id: application.cc,v 1.8 2002/03/04 07:09:40 t-peters Exp $
 
 #include "application.hh"
 #include "group.hh"
 #include "object.hh"
 #include "event.hh"
+#include "statusline.hh"
 
 VALUE Tvision_Ruby::WrApplication::cTApplication = 0;
 VALUE Tvision_Ruby::WrApplication::sleep_time    = 0;
@@ -274,6 +275,18 @@ Tvision_Ruby::WrApplication::init_wrapper(void)
                      reinterpret_cast<VALUE(*)(...)>
                      (&Tvision_Ruby::WrApplication::rb_run), 0);
 
+    // Application::statusLine=
+    rb_define_module_function(Tvision_Ruby::WrApplication::cTApplication,
+                              "statusLine=",
+                              reinterpret_cast<VALUE(*)(...)>
+                              (&Tvision_Ruby::WrApplication::
+                               rb_set_statusLine), 1);
+    // Application::statusLine
+    rb_define_module_function(Tvision_Ruby::WrApplication::cTApplication,
+                              "statusLine",
+                              reinterpret_cast<VALUE(*)(...)>
+                              (&Tvision_Ruby::WrApplication::
+                               rb_get_statusLine), 0);
 };
 
 static VALUE call_id2ref(VALUE id) {
@@ -414,3 +427,24 @@ Tvision_Ruby::WrApplication::rb_run(VALUE rb_application)
     TApplication & c_app = Tvision_Ruby::WrApplication::unwrap(rb_application);
     c_app.TApplication::run();
 }
+
+VALUE
+Tvision_Ruby::WrApplication::rb_get_statusLine(VALUE)
+{
+    if (TApplication::statusLine) {
+        return Tvision_Ruby::WrObject::wrap(*TApplication::statusLine);
+    }
+    return Qnil;
+}
+VALUE
+Tvision_Ruby::WrApplication::rb_set_statusLine(VALUE, VALUE rb_statusLine)
+{
+    if (rb_statusLine == Qnil) {
+        TApplication::statusLine = 0; return Qnil;
+    }
+    TStatusLine & c_statusline =
+        Tvision_Ruby::WrStatusLine::unwrap(rb_statusLine);
+    TApplication::statusLine = &c_statusline;
+    return Tvision_Ruby::WrApplication::rb_get_statusLine(0);
+}
+
