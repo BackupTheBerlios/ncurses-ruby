@@ -19,11 +19,13 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-// $Id: view.cc,v 1.4 2002/02/26 23:22:26 t-peters Exp $
+// $Id: view.cc,v 1.5 2002/03/04 07:11:24 t-peters Exp $
 
 #include "view.hh"
 #include "object.hh"
 #include "group.hh"
+#include "rect.hh"
+#include "statusline.hh"
 
 VALUE Tvision_Ruby::WrView::cTView = Qnil;
 
@@ -35,7 +37,11 @@ Tvision_Ruby::WrView::init_wrapper(void)
         rb_define_class_under(Tvision_Ruby::mTvision, "View",
                               Tvision_Ruby::WrObject::cTObject);
 
+    rb_define_method(Tvision_Ruby::WrView::cTView, "getExtent",
+                     reinterpret_cast<VALUE(*)(...)>
+                     (&Tvision_Ruby::WrView::rb_getExtent), 0);
     Tvision_Ruby::WrGroup::init_wrapper();
+    Tvision_Ruby::WrStatusLine::init_wrapper();
 }
 
 VALUE
@@ -44,6 +50,10 @@ Tvision_Ruby::WrView::wrap(TView & c_view)
     VALUE rb_view = Qnil;
     if (TGroup * c_group = dynamic_cast<TGroup*>(&c_view)) {
         rb_view = Tvision_Ruby::WrGroup::wrap(*c_group);
+    }
+    else if (TStatusLine * c_statusline =
+             dynamic_cast<TStatusLine *>(&c_view)) {
+        rb_view = Tvision_Ruby::WrStatusLine::wrap(*c_statusline);
     }
     return rb_view;
 }
@@ -60,5 +70,21 @@ Tvision_Ruby::WrView::unwrap(VALUE rb_view)
              "does not wrap a TView. File: %s, Line: %d", rb_view, __FILE__,
              __LINE__);
     return *c_view;
+}
+VALUE
+Tvision_Ruby::WrView::rb_getExtent(VALUE rb_view)
+{
+    TView & c_view = Tvision_Ruby::WrView::unwrap(rb_view);
+    return Tvision_Ruby::WrRect::wrap(c_view.getExtent());
+}
+void
+Tvision_Ruby::WrView::rb_free(void * c_pointer)
+{
+    assert(c_pointer != 0);
+    TView & c_view = * reinterpret_cast<TView *>(c_pointer);
+    if (c_view.owner == 0) {
+        // view is not associated with any other view
+        destroy(&c_view);
+    }
 }
 
