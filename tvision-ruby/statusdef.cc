@@ -19,10 +19,19 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-// $Id: statusdef.cc,v 1.2 2002/02/26 10:56:40 t-peters Exp $
+// $Id: statusdef.cc,v 1.3 2002/03/04 07:10:48 t-peters Exp $
 
 #include "statusdef.hh"
 #include "statusitem.hh"
+
+VALUE Tvision_Ruby::WrStatusDef::cTStatusDef = Qnil;
+
+void
+Tvision_Ruby::WrStatusDef::init_wrapper(void)
+{
+    Tvision_Ruby::WrStatusDef::cTStatusDef =
+        rb_define_class_under(Tvision_Ruby::mTvision, "StatusDef", rb_cArray);
+}
 
 Tvision_Ruby::WrStatusDef::WrStatusDef(VALUE rb_statusdef,
                                        TStatusDef * next_def)
