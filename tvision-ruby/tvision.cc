@@ -28,7 +28,7 @@
 #include "object.hh"
 #include "view.hh"
 #include "group.hh"
-
+#include "event.hh"
 
 VALUE Tvision_Ruby::mTvision = 0;
 
@@ -36,7 +36,8 @@ extern "C" void
 Init_tvision(void)
 {
     Tvision_Ruby::mTvision = rb_define_module("TVision");
-    Tvision_Ruby::WrApplication::init_wrapper();
+    Tvision_Ruby::WrObject::init_wrapper();
     Tvision_Ruby::WrPoint::init_wrapper();
     Tvision_Ruby::WrRect::init_wrapper();
+    Tvision_Ruby::WrEvent::init_wrapper();
 }
