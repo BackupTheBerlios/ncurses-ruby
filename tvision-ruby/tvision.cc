@@ -165,6 +165,28 @@ Tvision_Ruby::WrApplication::init_wrapper(void)
                      (&Tvision_Ruby::WrApplication::rb_initDeskTop), 0);
 };
 
+void
+Tvision_Ruby::WrApplication::rb_mark(void*)
+{
+    // Not yet anything to mark
+}
+void
+Tvision_Ruby::WrApplication::rb_free(void * c_app)
+{
+    TObject::destroy(reinterpret_cast<Tvision_Ruby::WrApplication*>(c_app));
+}
+
+Tvision_Ruby::WrStatusItem::WrStatusItem(VALUE rb_statusitem)
+    : TStatusItem(STR2CSTR(rb_iv_get(rb_statusitem, "@text")),
+                  NUM2INT(rb_iv_get(rb_statusitem, "@key")),
+                  NUM2INT(rb_iv_get(rb_statusitem, "@cmd")),
+                  0)
+{
+    VALUE rb_next = rb_iv_get(rb_statusitem, "@next");
+    if (rb_next != Qnil)
+        next = new Tvision_Ruby::WrStatusItem(rb_next);
+}
+
 extern "C" void
 Init_tvision(void)
 {

@@ -23,6 +23,7 @@
 #define TVISION_RUBY_HH
 
 #include <ruby.h>
+#include <string>
 
 #define Uses_TApplication
 #define Uses_TStatusLine
@@ -79,10 +80,13 @@ namespace Tvision_Ruby {
         static void
         rb_free(void*);
         
-        
         // This function registers the necessary Application methods with ruby.
         static void
         init_wrapper(void);
+    };
+
+    class WrStatusItem : public TStatusitem {
+        WrStatusItem(VALUE);
     };
 }
 
