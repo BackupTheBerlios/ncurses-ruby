@@ -19,7 +19,7 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-// $Id: object.hh,v 1.2 2002/02/26 10:56:40 t-peters Exp $
+// $Id: object.hh,v 1.3 2002/03/04 07:10:29 t-peters Exp $
 
 #ifndef TVISION_RUBY_OBJECT_HH
 #define TVISION_RUBY_OBJECT_HH
@@ -56,6 +56,12 @@ namespace Tvision_Ruby {
         set_dependency(VALUE object1, VALUE object2);
         static void
         unset_dependency(VALUE object1, VALUE object2);
+
+        // returns true if a ruby wrapper object exists for this TObject
+        static bool
+        exist_wrapper(TObject &);
+        static bool
+        registered_wrapper(TObject &);
     };
 }
 #endif
