@@ -19,7 +19,7 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-// $Id: tvision.cc,v 1.8 2002/02/26 10:56:40 t-peters Exp $
+// $Id: tvision.cc,v 1.9 2002/03/04 07:11:03 t-peters Exp $
 
 #include "tvision.hh"
 #include "application.hh"
@@ -29,6 +29,7 @@
 #include "view.hh"
 #include "group.hh"
 #include "event.hh"
+#include "statusdef.hh"
 
 VALUE Tvision_Ruby::mTvision = 0;
 
@@ -40,4 +41,5 @@ Init_tvision(void)
     Tvision_Ruby::WrPoint::init_wrapper();
     Tvision_Ruby::WrRect::init_wrapper();
     Tvision_Ruby::WrEvent::init_wrapper();
+    Tvision_Ruby::WrStatusDef::init_wrapper();
 }
