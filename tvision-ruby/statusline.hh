@@ -19,7 +19,7 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-// $Id: statusline.hh,v 1.1 2002/03/04 07:12:12 t-peters Exp $
+// $Id: statusline.hh,v 1.2 2002/03/06 21:38:41 t-peters Exp $
 
 #ifndef TVISION_RUBY_STATUSLINE_HH
 #define TVISION_RUBY_STATUSLINE_HH
@@ -43,6 +43,9 @@ namespace Tvision_Ruby {
 
         static VALUE
         rb_new(VALUE rb_class, VALUE rb_rect, VALUE rb_statusdefs);
+        static VALUE
+        rb_initialize(VALUE rb_statusline, VALUE rb_rect, VALUE rb_statusdefs)
+        {(void)rb_rect; (void)rb_statusdefs; return rb_statusline;}
     };
 }
 #endif
