@@ -34,6 +34,8 @@ Tvision_Ruby::WrGroup::init_wrapper(void)
     Tvision_Ruby::WrGroup::cTGroup =
         rb_define_class_under(Tvision_Ruby::mTvision, "Group",
                               Tvision_Ruby::WrView::cTView);
+    
+    Tvision_Ruby::WrApplication::init_wrapper();
 }
 
 VALUE
