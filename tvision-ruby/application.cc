@@ -19,7 +19,7 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-// $Id: application.cc,v 1.6 2002/02/26 10:56:40 t-peters Exp $
+// $Id: application.cc,v 1.7 2002/02/26 23:22:01 t-peters Exp $
 
 #include "application.hh"
 #include "group.hh"
@@ -272,7 +272,7 @@ Tvision_Ruby::WrApplication::init_wrapper(void)
     // Application#run
     rb_define_method(Tvision_Ruby::WrApplication::cTApplication, "run",
                      reinterpret_cast<VALUE(*)(...)>
-                     (&Tvision_Ruby::WrApplication::rb_getEvent), 1);
+                     (&Tvision_Ruby::WrApplication::rb_run), 0);
 
 };
 
