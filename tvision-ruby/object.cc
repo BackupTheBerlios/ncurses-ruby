@@ -123,8 +123,14 @@ Tvision_Ruby::WrObject::wrap(TObject & c_object)
 TObject &
 Tvision_Ruby::WrObject::unwrap(VALUE rb_object)
 {
-    TObject * c_object;
+    TObject * c_object = 0;
     Data_Get_Struct(rb_object, TObject, c_object);
+    if (RTEST(rb_iv_get(rb_object, "@isShutDown"))) {
+        c_object = 0;
+        rb_raise(rb_eRuntimeError, "Attempt to access ruby object %x. The "
+                 "corresponding C++ object has been destroyed. File: %s, "
+                 "Line: %d", rb_object, __FILE__, __LINE__);
+    }
     return *c_object;
 }
 
