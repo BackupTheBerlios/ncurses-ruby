@@ -91,9 +91,11 @@ namespace Tvision_Ruby {
         virtual void outOfMemory();
         static VALUE rb_outOfMemory(VALUE rb_application);
 
+        virtual void getEvent(TEvent& event);
+        static VALUE rb_getEvent(VALUE rb_application, VALUE rb_event);
+        
         // things to wrap from TProgram:
         /* 
-        virtual void getEvent(TEvent& event);
     virtual TPalette& getPalette() const;
     virtual void handleEvent(TEvent& event);
     virtual void putEvent( TEvent& event );
