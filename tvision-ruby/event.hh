@@ -19,7 +19,7 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-// $Id: event.hh,v 1.2 2002/02/26 10:56:40 t-peters Exp $
+// $Id: event.hh,v 1.3 2002/03/04 07:09:18 t-peters Exp $
 
 #ifndef TVISION_RUBY_EVENT_HH
 #define TVISION_RUBY_EVENT_HH
@@ -34,13 +34,13 @@ namespace Tvision_Ruby {
         static VALUE cTEvent;
 
         // Ruby class object of wrapper class EvMouse, derived from Event
-        static VALUE cTEvMouse;
+        static VALUE cTEventMouse;
 
         // Ruby class object of wrapper class EvKeyDown, derived from Event
-        static VALUE cTEvKeyDown;
+        static VALUE cTEventKeyDown;
 
         // Ruby class object of wrapper class EvMessage, derived from Event
-        static VALUE cTEvMessage;
+        static VALUE cTEventMessage;
 
         // necessary initialization for Event wrapper code
         static void
