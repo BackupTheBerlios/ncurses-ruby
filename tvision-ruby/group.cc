@@ -19,7 +19,7 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-// $Id: group.cc,v 1.4 2002/02/26 23:22:12 t-peters Exp $
+// $Id: group.cc,v 1.5 2002/03/04 07:10:03 t-peters Exp $
 
 #include "group.hh"
 #include "view.hh"
@@ -34,7 +34,9 @@ Tvision_Ruby::WrGroup::init_wrapper(void)
     Tvision_Ruby::WrGroup::cTGroup =
         rb_define_class_under(Tvision_Ruby::mTvision, "Group",
                               Tvision_Ruby::WrView::cTView);
-    
+    rb_define_method(Tvision_Ruby::WrGroup::cTGroup, "insert",
+                     reinterpret_cast<VALUE(*)(...)>
+                     (&Tvision_Ruby::WrGroup::rb_insert), 1);
     Tvision_Ruby::WrApplication::init_wrapper();
 }
 
@@ -60,4 +62,13 @@ Tvision_Ruby::WrGroup::unwrap(VALUE rb_group)
              "does not wrap a TGroup. File: %s, Line: %d", rb_group, __FILE__,
              __LINE__);
     return *c_group;
+}
+
+VALUE
+Tvision_Ruby::WrGroup::rb_insert(VALUE rb_group, VALUE rb_view)
+{
+    TGroup & c_group = Tvision_Ruby::WrGroup::unwrap(rb_group);
+    TView &  c_view  = Tvision_Ruby::WrView::unwrap(rb_view);
+    c_group.insert(&c_view);
+    return Qnil;
 }
