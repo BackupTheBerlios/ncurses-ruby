@@ -1,6 +1,6 @@
 require "tvision.so"
 
-module Tvision
+module TVision
 
   # Event codes
   EvMouseDown = 0x0001;
@@ -295,26 +295,26 @@ module Tvision
     object.shutDown
   end
 
-  class View
-    PhFocused     = :phFocused
-    PhPreProcess  = :phPreProcess
-    PhPostProcess = :phPostProcess
+#    class View
+#      PhFocused     = :phFocused
+#      PhPreProcess  = :phPreProcess
+#      PhPostProcess = :phPostProcess
 
-    NormalSelect = :normalSelect
-    EnterSelect  = :enterSelect
-    LeaveSelect  = :leaveSelect
+#      NormalSelect = :normalSelect
+#      EnterSelect  = :enterSelect
+#      LeaveSelect  = :leaveSelect
 
-    def initialize(rect)
-      @next      = nil
-      @options   = 0
-      @eventMask = EvMouseDown | EvKeyDown | EvCommand
-    end      
-  end
+#      def initialize(rect)
+#        @next      = nil
+#        @options   = 0
+#        @eventMask = EvMouseDown | EvKeyDown | EvCommand
+#      end      
+#    end
 
       
 
-  class StatusLine < View
-  end
+#    class StatusLine < View
+#    end
 end
 
 
