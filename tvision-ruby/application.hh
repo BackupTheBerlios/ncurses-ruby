@@ -57,15 +57,6 @@ namespace Tvision_Ruby {
         static VALUE
         rb_initDeskTop(VALUE self);
 
-        // These are the methods that the ruby initializers will call for
-        // initialization of their parts:
-        virtual void
-        c_initStatusLine(void);
-        virtual void
-        c_initMenuBar(void);
-        virtual void
-        c_initDeskTop(void);
-
         static void
         rb_mark(void*);
         static void
@@ -74,6 +65,87 @@ namespace Tvision_Ruby {
         // This function registers the necessary Application methods with ruby.
         static void
         init_wrapper(void);
+
+        static VALUE
+        rb_suspend(VALUE self);
+        static VALUE
+        rb_resume(VALUE self);
+
+        // class method that returns the current instance if one exists, or nil
+        static VALUE
+        rb_application(VALUE);
+
+        static VALUE
+        wrap(TApplication & c_app);
+        static WrApplication &
+        unwrap(VALUE rb_application);
+
+        // wrapped from TProgram:
+        static VALUE rb_idle(VALUE rb_application);
+        virtual void idle();
+        static VALUE sleep_time;
+
+        virtual void initScreen();
+        static VALUE rb_initScreen(VALUE rb_application);
+
+        virtual void outOfMemory();
+        static VALUE rb_outOfMemory(VALUE rb_application);
+
+        // things to wrap from TProgram:
+        /* 
+        virtual void getEvent(TEvent& event);
+    virtual TPalette& getPalette() const;
+    virtual void handleEvent(TEvent& event);
+    virtual void putEvent( TEvent& event );
+    virtual void run();
+    void setScreenMode( ushort mode, char *comm=0 );
+    TView *validView( TView *p );
+    virtual void shutDown();
+
+    virtual void suspend() {}
+    virtual void resume() {}
+
+    // This is a very nasty function only needed if you call
+    // TScreen::resume bypassing TProgram::resume. In this case
+    // the buffers could get unsychronized. This is done by
+    // RHIDE.
+    void syncScreenBuffer();
+    //   { buffer = TScreen::screenBuffer; }
+
+    static TStatusLine *initStatusLine( TRect );
+    static TMenuBar *initMenuBar( TRect );
+    static TDeskTop *initDeskTop( TRect );
+
+    static TProgram * application;
+    static TStatusLine * statusLine;
+    static TMenuBar * menuBar;
+    static TDeskTop * deskTop;
+    static int appPalette;
+
+    // Added by SET
+    static clock_t lastIdleClock; // That's the value of clock in the moment
+                                  // when idle is called. Used to accumulate
+                                  // in the inIdleTime var
+    static clock_t inIdleTime;  // That keeps track of the number of clocks
+                                // elapsed since we entered in idle
+    static Boolean inIdle;      // Indicates that we are in idle, a mouse or
+                                // keyboard event resets it
+    // I think that sometimes we can have a long elapsed time without events
+    // so I provide a way to reset it
+    static void resetIdleTime() { inIdle=False; };
+    // SET: By default that's 0 and the idle member releases the CPU to the
+    // OS. If for some reason you really need to avoid it and want to use
+    // 100% of the CPU just assign 1 to this variable.
+    static char doNotReleaseCPU;
+
+protected:
+
+    static TEvent pending;
+
+private:
+
+//    static const char * exitText;
+ */
     };
 }
 #endif
