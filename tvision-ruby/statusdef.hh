@@ -19,7 +19,7 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-// $Id: statusdef.hh,v 1.2 2002/02/26 10:56:40 t-peters Exp $
+// $Id: statusdef.hh,v 1.3 2002/03/04 07:10:56 t-peters Exp $
 
 #ifndef TVISION_RUBY_STATUSDEF_HH
 #define TVISION_RUBY_STATUSDEF_HH
@@ -35,6 +35,10 @@ namespace Tvision_Ruby {
         // create a chain of status defs from a ruby array
         static TStatusDef *
         create_statusdef_chain(VALUE rb_statusdef_array);
+
+        static VALUE cTStatusDef;
+        static void
+        init_wrapper(void);
     };
 }
 #endif
