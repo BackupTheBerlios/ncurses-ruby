@@ -19,7 +19,7 @@
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-// $Id: group.hh,v 1.2 2002/02/26 10:56:40 t-peters Exp $
+// $Id: group.hh,v 1.3 2002/03/04 07:10:11 t-peters Exp $
 
 #ifndef TVISION_RUBY_GROUP_HH
 #define TVISION_RUBY_GROUP_HH
@@ -43,6 +43,10 @@ namespace Tvision_Ruby {
 
         static void
         rb_mark(void *);
+
+
+        static VALUE
+        rb_insert(VALUE rb_group, VALUE rb_view);
     };
 }
 #endif
