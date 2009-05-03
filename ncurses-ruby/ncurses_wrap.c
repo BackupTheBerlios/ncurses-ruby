@@ -2,7 +2,7 @@
  * ncurses-ruby is a ruby module for accessing the FSF's ncurses library
  * (C) 2002, 2003, 2004 Tobias Peters <t-peters@berlios.de>
  * (C) 2004 Simon Kaczor <skaczor@cox.net>
- * (C) 2005 2006 Tobias Herzke
+ * (C) 2005 2006 2009 Tobias Herzke
  *
  *  This module is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
@@ -18,7 +18,7 @@
  *  License along with this module; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
  *
- * $Id: ncurses_wrap.c,v 1.14 2009/05/03 10:37:54 t-peters Exp $
+ * $Id: ncurses_wrap.c,v 1.15 2009/05/03 14:13:27 t-peters Exp $
  *
  * This file was adapted from the original ncurses header file which
  * has the following copyright statements:
@@ -65,6 +65,9 @@
 */
 
 #include "ncurses_wrap.h"
+#ifdef HAVE_LOCALE_H
+#include <locale.h>
+#endif
 
 VALUE mNcurses;  /* module Ncurses */
 VALUE cWINDOW;   /* class Ncurses::WINDOW */
@@ -119,6 +122,17 @@ init_constants_1(void)
     rb_define_const(mNcurses, "WA_RIGHT",      INT2NUM(WA_RIGHT));
     rb_define_const(mNcurses, "WA_TOP",        INT2NUM(WA_TOP));
     rb_define_const(mNcurses, "WA_VERTICAL",   INT2NUM(WA_VERTICAL));
+#endif
+
+    /* locale flags */
+#ifdef HAVE_LOCALE_H
+    rb_define_const(mNcurses, "LC_ALL",        INT2NUM(LC_ALL));
+    rb_define_const(mNcurses, "LC_COLLATE",    INT2NUM(LC_COLLATE));
+    rb_define_const(mNcurses, "LC_CTYPE",      INT2NUM(LC_CTYPE));
+    rb_define_const(mNcurses, "LC_MESSAGES",   INT2NUM(LC_MESSAGES));
+    rb_define_const(mNcurses, "LC_MONETARY",   INT2NUM(LC_MONETARY));
+    rb_define_const(mNcurses, "LC_NUMERIC",    INT2NUM(LC_NUMERIC));
+    rb_define_const(mNcurses, "LC_TIME",       INT2NUM(LC_TIME));
 #endif
 }
 
@@ -2684,6 +2698,11 @@ void init_SCREEN_methods(void)
 #endif
 }
 
+#ifdef HAVE_LOCALE_H
+static VALUE rbncurs_setlocale(VALUE dummy, VALUE category, VALUE locale)
+{   return rb_str_new2(setlocale(NUM2INT(category), STR2CSTR(locale)));}
+#endif
+
 static void init_safe_functions(void)
 {
     NCFUNC(initscr, 0);
@@ -2694,6 +2713,9 @@ static void init_safe_functions(void)
 #endif
 #ifdef HAVE_USE_ENV
     NCFUNC(use_env, 1);
+#endif
+#ifdef HAVE_LOCALE_H
+    NCFUNC(setlocale, 2);
 #endif
 }
 void Init_ncurses_bin(void)

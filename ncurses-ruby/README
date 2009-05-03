@@ -1,4 +1,4 @@
-$Id: README,v 1.15 2009/05/03 10:37:54 t-peters Exp $
+$Id: README,v 1.16 2009/05/03 14:13:27 t-peters Exp $
 ------------------------------------------------------------------------
 This directory contains a ruby module for accessing the FSF's ncurses
 library.
@@ -48,9 +48,9 @@ This README is organized into the following parts:
 - The panel Library
 - The form Library
 - The menu Library
+- Locale handling
 - Ncurses and Ruby Threads
 - Example programs
-- Applications using ncurses-ruby
 
 General Ncurses Literature
 --------------------------
@@ -322,6 +322,19 @@ in curses function arguments.
 The functions menu_userptr and item_userptr are not supported. Use
 menu.user_object and item.user_object to store Ruby objects instead.
 
+Locale handling
+===============
+
+The C library function setlocale is not technically an Ncurses function.
+However, it is used by many ncurses programs, and for this purpose,
+a wrapper for this function is also included in ncurses-ruby.
+
+The function is implemented as a module function Ncurses.ruby, and
+expects two arguments, an Integer and a String.  It returns a string. 
+The constants that can be used as the Integer argument are also wrapped
+as constants in the Ncurses module.  See the manual page for setlocale
+for documentation of this function.
+
 Ncurses and Ruby Threads
 ========================
 
@@ -340,13 +353,3 @@ Directory "examples" contains a few example programs demonstrating how
 to use the ncurses library with ruby.  Be sure to read the file
 "examples/LICENSES_for_examples".
 
-
-Applications using ncurses-ruby
-===============================
-
-aeditor (v. 0.x) - Pair programming editor, http://metaeditor.sourceforge.net/
-raggle - RSS aggregator, http://www.raggle.org/about/
-ruvi - Editor, http://ruvi.rubyforge.org/
-diakonos - Editor, http://purepistos.net/diakonos/
-tpp - text-based presentation program, http://synflood.at/tpp/
-yapo - ports overview for CRUX linux distribution, http://jue.li/crux/yapo/

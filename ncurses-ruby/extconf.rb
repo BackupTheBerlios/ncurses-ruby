@@ -2,7 +2,7 @@
 
 # ncurses-ruby is a ruby module for accessing the FSF's ncurses library
 # (C) 2002, 2004 Tobias Peters <t-peters@users.berlios.de>
-# (C) 2005 Tobias Herzke
+# (C) 2005, 2009 Tobias Herzke
 #
 # This module is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -18,7 +18,7 @@
 # License along with this module; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
 
-# $Id: extconf.rb,v 1.13 2009/05/03 11:02:36 t-peters Exp $
+# $Id: extconf.rb,v 1.14 2009/05/03 14:13:27 t-peters Exp $
 
 require "mkmf"
 
@@ -26,6 +26,8 @@ $CFLAGS  += " -g"
 $CXXFLAGS  = $CFLAGS
 
 have_header("unistd.h")
+have_header("locale.h")
+
 if have_header("ncurses.h")
   curses_header = "ncurses.h"
 elsif have_header("ncurses/curses.h")
