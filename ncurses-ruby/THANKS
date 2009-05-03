@@ -1,4 +1,4 @@
-$Id: THANKS,v 1.8 2006/06/19 09:39:40 t-peters Exp $
+$Id: THANKS,v 1.9 2009/05/03 10:37:54 t-peters Exp $
 
 A list of people that helped me with ncurses-ruby
 
@@ -12,3 +12,4 @@ Andreas Schwarz
 Simon Strandgaard
 Paul Duncan
 Tim Sutherland
+Earle Clubb

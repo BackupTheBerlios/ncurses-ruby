@@ -18,7 +18,7 @@
 # License along with this module; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
 
-# $Id: extconf.rb,v 1.11 2005/02/26 22:51:45 t-peters Exp $
+# $Id: extconf.rb,v 1.12 2009/05/03 10:37:54 t-peters Exp $
 
 require "mkmf"
 
@@ -36,8 +36,8 @@ else
   raise "ncurses header file not found"
 end
 
-if have_library("ncurses", "wmove")
-  curses_lib = "ncurses"
+if have_library("ncursesw", "wmove")
+  curses_lib = "ncursesw"
 elsif have_library("pdcurses", "wmove")
   curses_lib = "pdcurses"
 else
@@ -121,11 +121,15 @@ have_func("attr_get")
 
 puts "checking for the panel library..."
 if have_header("panel.h")
-  have_library("panel", "panel_hidden")
+  have_library("panelw", "panel_hidden")
 end
 puts "checking for the form library..."
 if have_header("form.h")
-  have_library("form", "new_form")
+  have_library("formw", "new_form")
+end
+puts "checking for the menu library..."
+if have_header("menu.h")
+  have_library("menu", "new_menu")
 end
 
 create_makefile('ncurses_bin')

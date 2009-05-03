@@ -17,7 +17,7 @@
 # License along with this module; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
 
-# $Id: ncurses.rb,v 1.7 2005/02/26 22:51:29 t-peters Exp $
+# $Id: ncurses.rb,v 1.8 2009/05/03 10:37:54 t-peters Exp $
 
 require "ncurses_bin.so"
 
@@ -109,7 +109,7 @@ module Ncurses
     class FORM
       attr_reader :user_object
 
-      # This placeholder replaces the field_userptr function in curses
+      # This placeholder replaces the form_userptr function in curses
       def user_object=(obj)
         @user_object = obj
       end
@@ -125,6 +125,26 @@ module Ncurses
     end
 
     class FIELDTYPE
+    end
+  end
+
+  module Menu
+    class MENU
+      attr_reader :user_object
+
+      # This placeholder replaces the menu_userptr function in curses
+      def user_object=(obj)
+        @user_object = obj
+      end
+    end
+    
+    class ITEM
+      attr_reader :user_object
+
+      # This placeholder replaces the item_userptr function in curses
+      def user_object=(obj)
+        @user_object = obj
+      end
     end
   end
 end

@@ -18,7 +18,7 @@
  *  License along with this module; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
  *
- * $Id: ncurses_wrap.c,v 1.13 2006/06/19 09:46:59 t-peters Exp $
+ * $Id: ncurses_wrap.c,v 1.14 2009/05/03 10:37:54 t-peters Exp $
  *
  * This file was adapted from the original ncurses header file which
  * has the following copyright statements:
@@ -321,6 +321,10 @@ static VALUE rbncurs_winnstr(VALUE dummy, VALUE rb_win, VALUE rb_chstr, VALUE rb
 
 #ifdef HAVE_FORM_H
 #include "form_wrap.h" /* needs init_form */
+#endif
+
+#ifdef HAVE_MENU_H
+#include "menu_wrap.h" /* needs init_menu */
 #endif
 
 static
@@ -2729,5 +2733,8 @@ static void Init_ncurses_full(void)
 #endif
 #ifdef HAVE_FORM_H
     init_form();
+#endif
+#ifdef HAVE_MENU_H
+    init_menu();
 #endif
 }

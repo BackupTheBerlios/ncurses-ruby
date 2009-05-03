@@ -23,4 +23,6 @@ ncurses_wrap.h
 lib/ncurses.rb
 panel_wrap.c
 panel_wrap.h
+menu_wrap.c
+menu_wrap.h
 
