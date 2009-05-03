@@ -18,7 +18,7 @@
  *  License along with this module; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
  *
- * $Id: ncurses_wrap.c,v 1.15 2009/05/03 14:13:27 t-peters Exp $
+ * $Id: ncurses_wrap.c,v 1.16 2009/05/03 20:37:26 t-peters Exp $
  *
  * This file was adapted from the original ncurses header file which
  * has the following copyright statements:
@@ -205,6 +205,12 @@ init_constants_2(void)
 #ifdef CCHARW_MAX
     rb_define_const(mNcurses, "CCHARW_MAX",   INT2NUM(CCHARW_MAX));
 #endif
+}
+
+/// Portable (1.8,1.9) determination of array length (calling #length)
+long rbncurs_array_length(VALUE array)
+{
+  return NUM2LONG(funcall(array, rb_intern("length"), 0));
 }
 
 VALUE   wrap_window(WINDOW* window)

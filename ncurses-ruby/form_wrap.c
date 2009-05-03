@@ -6,7 +6,7 @@
  * 
  * Changes:
  * (C) 2004 Tobias Peters
- * (C) 2005 Tobias Herzke
+ * (C) 2005 2009 Tobias Herzke
  *
  *  This module is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
@@ -394,7 +394,7 @@ static void reg_proc(void* owner, int hook, VALUE proc) {
  */
 static VALUE rbncurs_m_new_form(VALUE dummy, VALUE rb_field_array)
 {
-  long n = RARRAY(rb_field_array)->len;
+  long n = rbncurs_array_length(rb_field_array);
   /* Will ncurses free this array? If not, must do it after calling free_form(). */
   FIELD** fields = ALLOC_N(FIELD*, (n+1));
   long i;  
@@ -618,7 +618,7 @@ static VALUE rbncurs_c_set_field_type(int argc, VALUE* argv, VALUE rb_field) {
 		rb_raise(rb_eArgError, "TYPE_ENUM requires three additional arguments");
 	 }
     else {
-		int n = RARRAY(arg3)->len;
+		int n = rbncurs_array_length(arg3);
 		/*  Will ncurses free this array of strings in free_field()? */
 		char** list = ALLOC_N(char*, n+1);
 		int i;
@@ -777,7 +777,7 @@ static VALUE rbncurs_m_set_max_field(VALUE dummy, VALUE rb_field, VALUE max)
  * form_field
  */
 static VALUE rbncurs_c_set_form_fields(VALUE rb_form, VALUE rb_field_array) {
-  long n = RARRAY(rb_field_array)->len;
+  long n = rbncurs_array_length(rb_field_array);
   /*  If ncurses does not free memory used by the previous array of strings, */
   /*  we will have to do it now. */
   FIELD** fields = ALLOC_N(FIELD*, (n+1));
@@ -1125,7 +1125,7 @@ static void* make_arg(va_list* ap) {
 	 VALUE argc = rb_funcall(proc, rb_intern("arity"),0);
 	 VALUE args = get_proc(field, FIELDTYPE_ARGS);
 	 if (args != Qnil) {		
-		if (NUM2INT(argc)-1 != RARRAY(args)->len) {	
+		if (NUM2INT(argc)-1 != rbncurs_array_length(args)) {	
 		  char msg[500];
 		  snprintf(msg, 500, "The validation functions for this field type need %d additional arguments.",NUM2INT(argc)-1);
 		  msg[499]=0;
