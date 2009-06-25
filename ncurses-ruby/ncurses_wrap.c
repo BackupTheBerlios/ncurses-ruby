@@ -18,7 +18,7 @@
  *  License along with this module; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
  *
- * $Id: ncurses_wrap.c,v 1.16 2009/05/03 20:37:26 t-peters Exp $
+ * $Id: ncurses_wrap.c,v 1.17 2009/06/25 21:53:57 t-peters Exp $
  *
  * This file was adapted from the original ncurses header file which
  * has the following copyright statements:
@@ -210,7 +210,7 @@ init_constants_2(void)
 /// Portable (1.8,1.9) determination of array length (calling #length)
 long rbncurs_array_length(VALUE array)
 {
-  return NUM2LONG(funcall(array, rb_intern("length"), 0));
+  return NUM2LONG(rb_funcall(array, rb_intern("length"), 0));
 }
 
 VALUE   wrap_window(WINDOW* window)
@@ -848,6 +848,9 @@ static int rbncurshelper_nonblocking_wgetch(WINDOW *c_win) {
 	/* sleep on infd until input is available or tv reaches timeout */
 	FD_ZERO(&in_fds);
 	FD_SET(infd, &in_fds);
+	FILE * f = fopen("/tmp/xlog","a");
+	fprintf(f, "Callig select\n");
+	fclose(f);
 	rb_thread_select(infd + 1, &in_fds, NULL, NULL, &tv);
     }
 #ifdef NCURSES_VERSION
