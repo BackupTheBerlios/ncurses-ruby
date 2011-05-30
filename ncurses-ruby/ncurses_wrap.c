@@ -18,7 +18,7 @@
  *  License along with this module; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
  *
- * $Id: ncurses_wrap.c,v 1.19 2011/05/30 23:05:50 t-peters Exp $
+ * $Id: ncurses_wrap.c,v 1.20 2011/05/30 23:28:23 t-peters Exp $
  *
  * This file was adapted from the original ncurses header file which
  * has the following copyright statements:
@@ -2394,7 +2394,7 @@ static VALUE rbncurs_tracef(int argc, VALUE * argv, VALUE dummy)
         return Qnil;
     }
     _tracef("%s",
-            STR2CSTR(funcall3(rb_mKernel, rb_intern("sprintf"), argc, argv)));
+            STR2CSTR(rb_funcall3(rb_mKernel, rb_intern("sprintf"), argc, argv)));
     return Qnil;
 }
 #endif /* HAVE__TRACEF */
