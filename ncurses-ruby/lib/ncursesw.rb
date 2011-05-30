@@ -17,7 +17,7 @@
 # License along with this module; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
 
-# $Id: ncurses.rb,v 1.9 2011/05/30 23:05:50 t-peters Exp $
+# $Id: ncursesw.rb,v 1.1 2011/05/30 23:05:51 t-peters Exp $
 
-require "ncurses_bin.so"
+require "ncursesw_bin.so"
 require "ncurses_sugar.rb"

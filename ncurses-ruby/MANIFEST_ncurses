@@ -1,6 +1,5 @@
 Changes
 COPYING
-MANIFEST
 README
 THANKS
 TODO
@@ -14,15 +13,14 @@ examples/rain.rb
 examples/tclock.rb
 examples/read_line.rb
 examples/test_scanw.rb
-extconf.rb
 form_wrap.c
 form_wrap.h
 make_dist.rb
 ncurses_wrap.c
 ncurses_wrap.h
 lib/ncurses.rb
+lib/ncurses_sugar.rb
 panel_wrap.c
 panel_wrap.h
 menu_wrap.c
 menu_wrap.h
-

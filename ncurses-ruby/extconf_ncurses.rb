@@ -2,7 +2,7 @@
 
 # ncurses-ruby is a ruby module for accessing the FSF's ncurses library
 # (C) 2002, 2004 Tobias Peters <t-peters@users.berlios.de>
-# (C) 2005, 2009 Tobias Herzke
+# (C) 2005, 2009, 2011 Tobias Herzke
 #
 # This module is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -18,7 +18,7 @@
 # License along with this module; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
 
-# $Id: extconf.rb,v 1.15 2011/05/30 18:31:26 t-peters Exp $
+# $Id: extconf_ncurses.rb,v 1.1 2011/05/30 23:05:50 t-peters Exp $
 
 require "mkmf"
 
