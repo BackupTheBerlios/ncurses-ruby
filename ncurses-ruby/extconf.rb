@@ -18,7 +18,7 @@
 # License along with this module; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
 
-# $Id: extconf.rb,v 1.14 2009/05/03 14:13:27 t-peters Exp $
+# $Id: extconf.rb,v 1.15 2011/05/30 18:31:26 t-peters Exp $
 
 require "mkmf"
 
@@ -40,8 +40,6 @@ end
 
 if have_library("ncurses", "wmove")
   curses_lib = "ncurses"
-elsif have_library("pdcurses", "wmove")
-  curses_lib = "pdcurses"
 else
   raise "ncurses library not found"
 end
